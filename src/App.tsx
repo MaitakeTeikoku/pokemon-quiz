@@ -177,16 +177,14 @@ export const App = () => {
         </HStack>
 
         {isFinished ? (
-          <Card w="full">
+          <Card mt={24}>
             <CardHeader justifyContent="center">
               <Heading size="lg">クイズ終了！</Heading>
             </CardHeader>
             <CardBody>
               <VStack>
-                <HStack>
+                <HStack justifyContent="center">
                   <Badge>スコア</Badge>
-
-                  <Spacer />
 
                   <Text>{score}</Text>
                 </HStack>
