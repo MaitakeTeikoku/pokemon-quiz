@@ -22,8 +22,6 @@
     ```sh: ターミナル
     npm install vite-plugin-pwa
     npm install @yamada-ui/react @yamada-ui/lucide
-    npm install @yamada-ui/markdown
-    npm install --save-dev @cloudflare/workers-types
     ```
 1. ローカルで起動。
     ```sh: ターミナル
@@ -48,7 +46,7 @@
 
         export default App
         ```
-    - index.htmlを以下に変更。（`lang="ja"`、`link  href="/favicon.ico"`、`<title></title>`、`viewport-fit=cover`、`meta name="description"`）
+    - index.htmlを以下に変更。（`lang="ja"`、`link  href="/favicon.ico"`、`<title></title>`、`viewport-fit=cover`）
         ```html: index.html
         <!doctype html>
         <html lang="ja">
@@ -57,10 +55,7 @@
             <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
             
-            <title>きなこAIチャット</title>
-
-            <!-- description -->
-            <meta name="description" content="Meta Llama, Google Gemma, Microsoft Phi など、様々な生成AIを無料で使用できます。画像生成もできます。" />
+            <title>ポケモンクイズ</title>
           </head>
           <body>
             <div id="root"></div>
@@ -107,9 +102,9 @@
           includeAssets: ["favicon.ico", "logo192.png"],
           injectRegister: "auto",
           manifest: {
-            name: "きなこAIスタジオ",
-            short_name: "AIスタジオ",
-            description: "Meta Llama, Google Gemma, Microsoft Phi など、様々な生成AIを無料で使用できます。画像生成もできます。",
+            name: "ポケモンクイズ",
+            short_name: "ポケモンクイズ",
+            description: "ポケモンのフレーバーテキストから正しいポケモンを推測し、4つの選択肢から答えを選ぶクイズゲームです!",
             theme_color: "#141414",
             icons: [
               {
