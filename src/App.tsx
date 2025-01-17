@@ -243,6 +243,7 @@ export const App = () => {
                     alt={`${number}`}
                     objectFit="contain"
                     boxSize="100%"
+                    pointerEvents="none"
                   />
                 </Button>
               ))}
