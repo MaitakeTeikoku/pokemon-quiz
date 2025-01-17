@@ -13,7 +13,7 @@ interface PokemonName {
 }
 
 // ポケモンの日本語のフレーバーテキストを取得
-export const getFlavorText = async (dexNumber: number): Promise<string | null> => {
+const getFlavorText = async (dexNumber: number): Promise<string | null> => {
   try {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${dexNumber}`);
 
@@ -54,3 +54,5 @@ export const getFlavorText = async (dexNumber: number): Promise<string | null> =
     return null;
   }
 };
+
+export default getFlavorText;

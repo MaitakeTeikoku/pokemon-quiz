@@ -1,5 +1,5 @@
 // 重複なしのランダムな番号を取得
-export const getRandomNumbers = (count: number, max: number): number[] => {
+const getRandomNumbers = (count: number, max: number): number[] => {
   // 入力値の検証
   if (!Number.isInteger(count) || !Number.isInteger(max)) {
     throw new Error('count と max は整数である必要があります');
@@ -18,3 +18,5 @@ export const getRandomNumbers = (count: number, max: number): number[] => {
   }
   return numbers.slice(0, count);
 };
+
+export default getRandomNumbers;

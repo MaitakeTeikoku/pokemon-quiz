@@ -1,19 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   Container, HStack, VStack, Spacer,
   Progress,
   DataList, DataListItem, DataListTerm, DataListDescription,
   Badge,
   CircleProgress, CircleProgressLabel,
-  Card, Heading, CardHeader, CardBody,
+  Card, Heading, CardHeader, CardBody, CardFooter,
   Text,
   Button,
   Grid,
   Image,
   useNotice,
+  ColorScheme,
 } from "@yamada-ui/react";
-import { getFlavorText } from "./utils/GetFlavorText";
-import { getRandomNumbers } from "./utils/GetRandomNumbers";
+import getRandomNumbers from "./utils/GetRandomNumbers";
+import getFlavorText from "./utils/GetFlavorText";
+import getScoreColor from "./utils/GetScoreColor";
+import getFinishMessage from "./utils/GetFinishMessage";
 
 const TOTAL_QUESTIONS = 10;
 const CHOICE_COUNT = 4;
@@ -39,6 +42,14 @@ export const App = () => {
   const [score, setScore] = useState<number>(0);
   // 現在の問題数
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
+  
+  const scoreColor: ColorScheme = useMemo(() =>
+    getScoreColor(score, isLoading ? currentQuestion + 1 : currentQuestion)
+  , [score, currentQuestion, isLoading]);
+
+  const finishedMessage: string = useMemo(() =>
+    getFinishMessage(score, TOTAL_QUESTIONS)
+  , [score]);
 
   useEffect(() => {
     loadNewQuestion();
@@ -144,7 +155,6 @@ export const App = () => {
         value={currentQuestion}
         max={TOTAL_QUESTIONS}
         hasStripe
-        isStripeAnimation
       />
 
       <Container centerContent
@@ -170,6 +180,8 @@ export const App = () => {
           <CircleProgress
             value={score}
             max={isLoading ? currentQuestion + 1 : currentQuestion}
+            isRounded
+            color={scoreColor}
           >
             <CircleProgressLabel>{score}</CircleProgressLabel>
           </CircleProgress>
@@ -178,7 +190,7 @@ export const App = () => {
 
         {isFinished ? (
           <Card mt={24}>
-            <CardHeader justifyContent="center">
+            <CardHeader justifyContent="center"  mb={4}>
               <Heading size="lg">クイズ終了！</Heading>
             </CardHeader>
             <CardBody>
@@ -189,9 +201,12 @@ export const App = () => {
                   <Text>{score}</Text>
                 </HStack>
 
-                <Button onClick={reset}>
-                  もう一度プレイ
-                </Button>
+                <Text textAlign="center">{finishedMessage}</Text>
+                <CardFooter mt={4}>
+                  <Button onClick={reset}>
+                    もう一度プレイ
+                  </Button>
+                </CardFooter>
               </VStack>
             </CardBody>
           </Card>
@@ -218,7 +233,7 @@ export const App = () => {
                 <Button
                   key={number}
                   onClick={() => handleAnswer(number)}
-                  isDisabled={isLoading}
+                  isDisabled={isLoading || isError}
                   variant={(isAnswered && number !== correctAnswer) ? "outline" : "solid"}
                   colorScheme={(isAnswered && number === correctAnswer) ? "primary" : undefined}
                   h="150px"
