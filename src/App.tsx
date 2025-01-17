@@ -47,7 +47,7 @@ export const App = () => {
   const notice = useNotice({
     limit: 2,
     isClosable: true,
-    placement: "bottom-right",
+    placement: "bottom",
   });
 
   const loadNewQuestion = async () => {
@@ -102,6 +102,7 @@ export const App = () => {
     notice({
       title: isCorrect ? "あたり！" : "はずれ...",
       status: "loading",
+      icon: { variant: "puff" },
       variant: "left-accent",
       colorScheme: isCorrect ? "green" : "red",
       duration: 2000,
