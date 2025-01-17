@@ -24,7 +24,7 @@ const MAX_POKEMON = 898;
 
 export const App = () => {
   // 処理中かどうか
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   // エラーかどうか
   const [isError, setIsError] = useState<boolean>(false);
   // 解答したかどうか
@@ -65,7 +65,7 @@ export const App = () => {
     if (isLoading) {
       return;
     }
-    
+
     setIsLoading(true);
     setIsError(false);
 
