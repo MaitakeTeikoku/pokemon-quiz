@@ -19,6 +19,7 @@ function injectScript(): Plugin {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    base: process.env.GITHUB_PAGES ? 'REPOSITORY_NAME' : './',
     react(),
     VitePWA({
       registerType: "autoUpdate",
