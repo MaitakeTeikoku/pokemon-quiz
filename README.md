@@ -1,0 +1,151 @@
+## React(Vite)、Cloudflare Pagesプロジェクト構築
+1. GitHubからクローン。
+    ```sh: ターミナル
+    git clone https://github.com/kinakokyoryu/pokemon-quiz.git
+    ```
+1. Reactのプロジェクトを作成。
+    ```sh: ターミナル
+    npm create vite@latest pokemon-quiz
+    ```
+    ```sh: ターミナル
+    Select a framework: » React
+    Select a variant: » TypeScript + SWC
+    ```
+1. ディレクトリの移動。
+    ```sh: ターミナル
+    cd pokemon-quiz
+    ```
+1. ライブラリをインストール。
+    ```sh: ターミナル
+    npm install
+    ```
+    ```sh: ターミナル
+    npm install vite-plugin-pwa
+    npm install @yamada-ui/react @yamada-ui/lucide
+    npm install @yamada-ui/markdown
+    npm install --save-dev @cloudflare/workers-types
+    ```
+1. ローカルで起動。
+    ```sh: ターミナル
+    npm run dev
+    ```
+1. クリーンアップ。
+    - 以下を削除。
+        - src/assets
+        - src/index.css
+        - src/App.css
+        - public/vite.svg
+    - public/favicon.icoを追加。
+    - src/App.tsxを以下に変更。
+        ```tsx: App.tsx
+        function App() {
+
+          return (
+            <>
+            </>
+          )
+        }
+
+        export default App
+        ```
+    - index.htmlを以下に変更。（`lang="ja"`、`link  href="/favicon.ico"`、`<title></title>`、`viewport-fit=cover`、`meta name="description"`）
+        ```html: index.html
+        <!doctype html>
+        <html lang="ja">
+          <head>
+            <meta charset="UTF-8" />
+            <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+            
+            <title>きなこAIチャット</title>
+
+            <!-- description -->
+            <meta name="description" content="Meta Llama, Google Gemma, Microsoft Phi など、様々な生成AIを無料で使用できます。画像生成もできます。" />
+          </head>
+          <body>
+            <div id="root"></div>
+            <script type="module" src="/src/main.tsx"></script>
+          </body>
+        </html>
+        ```
+    - vite.config.jsのdefineConfig内を以下に変更。（`server: { host: true }`を追記。）
+        ```ts: vite.config.js
+        import { defineConfig } from "vite"
+        import react from "@vitejs/plugin-react-swc"
+
+        // https://vite.dev/config/
+        export default defineConfig({
+          plugins: [react()],
+          server: { host: true },
+        })
+        ```
+    - main.tsxを以下に変更。（`import "./index.css"`を削除。）
+        ```tsx: main.tsx
+        import { StrictMode } from "react"
+        import { createRoot } from "react-dom/client"
+        import App from "./App.tsx"
+
+        createRoot(document.getElementById("root")!).render(
+          <StrictMode>
+              <App />
+          </StrictMode>
+        )
+        ```
+1. Vite PWAを実装するため、public/logo192.png、public/logo512.pngを追加。
+1. Vite PWAを実装するため、vite.config.tsを下記に変更。
+    ```ts: vite.config.ts
+    import { defineConfig } from "vite"
+    import react from "@vitejs/plugin-react-swc"
+    import { VitePWA } from "vite-plugin-pwa"
+
+    // https://vite.dev/config/
+    export default defineConfig({
+      plugins: [
+        react(),
+        VitePWA({
+          registerType: "autoUpdate",
+          includeAssets: ["favicon.ico", "logo192.png"],
+          injectRegister: "auto",
+          manifest: {
+            name: "きなこAIスタジオ",
+            short_name: "AIスタジオ",
+            description: "Meta Llama, Google Gemma, Microsoft Phi など、様々な生成AIを無料で使用できます。画像生成もできます。",
+            theme_color: "#141414",
+            icons: [
+              {
+                src: "logo192.png",
+                sizes: "192x192",
+                type: "image/png"
+              },
+              {
+                src: "logo512.png",
+                sizes: "512x512",
+                type: "image/png"
+              },
+              {
+                src: "logo512.png",
+                sizes: "512x512",
+                type: "image/png",
+                purpose: "any"
+              },
+              {
+                src: "logo512.png",
+                sizes: "512x512",
+                type: "image/png",
+                purpose: "maskable"
+              }
+            ]
+          }
+        })
+      ],
+      server: { host: true },
+    })
+    ```
+1. package.jsonの"scripts"に以下を追記。
+    ```json: package.json
+    "git": "git add . && git commit && git push"
+    ```
+1. コミットしてプッシュ。
+    ```sh: ターミナル
+    npm run git
+    ```
