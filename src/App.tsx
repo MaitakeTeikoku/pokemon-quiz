@@ -62,6 +62,10 @@ export const App = () => {
   });
 
   const loadNewQuestion = async () => {
+    if (isLoading) {
+      return;
+    }
+    
     setIsLoading(true);
     setIsError(false);
 
@@ -233,7 +237,7 @@ export const App = () => {
                 <Button
                   key={number}
                   onClick={() => handleAnswer(number)}
-                  isDisabled={isLoading || isError}
+                  isDisabled={isLoading || isError || isFinished}
                   variant={(isAnswered && number !== correctAnswer) ? "outline" : "solid"}
                   colorScheme={(isAnswered && number === correctAnswer) ? "primary" : undefined}
                   h="150px"
