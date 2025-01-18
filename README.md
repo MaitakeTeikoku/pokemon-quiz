@@ -1,30 +1,30 @@
 ## React(Vite)プロジェクト構築
 1. GitHubからクローン。
-    ```sh: ターミナル
+    ```sh
     git clone https://github.com/kinakokyoryu/pokemon-quiz.git
     ```
 1. Reactのプロジェクトを作成。
-    ```sh: ターミナル
+    ```sh
     npm create vite@latest pokemon-quiz
     ```
-    ```sh: ターミナル
+    ```sh
     Select a framework: » React
     Select a variant: » TypeScript + SWC
     ```
 1. ディレクトリの移動。
-    ```sh: ターミナル
+    ```sh
     cd pokemon-quiz
     ```
 1. ライブラリをインストール。
-    ```sh: ターミナル
+    ```sh
     npm install
     ```
-    ```sh: ターミナル
+    ```sh
     npm install vite-plugin-pwa
     npm install @yamada-ui/react @yamada-ui/lucide
     ```
 1. ローカルで起動。
-    ```sh: ターミナル
+    ```sh
     npm run dev
     ```
 1. クリーンアップ。
@@ -35,7 +35,7 @@
         - public/vite.svg
     - public/favicon.icoを追加。
     - src/App.tsxを以下に変更。
-        ```tsx: App.tsx
+        ```tsx
         function App() {
 
           return (
@@ -47,7 +47,7 @@
         export default App
         ```
     - index.htmlを以下に変更。（`lang="ja"`、`link  href="/favicon.ico"`、`<title></title>`、`viewport-fit=cover`）
-        ```html: index.html
+        ```html
         <!doctype html>
         <html lang="ja">
           <head>
@@ -64,7 +64,7 @@
         </html>
         ```
     - vite.config.jsのdefineConfig内を以下に変更。（`server: { host: true }`を追記。）
-        ```ts: vite.config.js
+        ```ts
         import { defineConfig } from "vite"
         import react from "@vitejs/plugin-react-swc"
 
@@ -75,7 +75,7 @@
         })
         ```
     - main.tsxを以下に変更。（`import "./index.css"`を削除。）
-        ```tsx: main.tsx
+        ```tsx
         import { StrictMode } from "react"
         import { createRoot } from "react-dom/client"
         import App from "./App.tsx"
@@ -88,7 +88,7 @@
         ```
 1. Vite PWAを実装するため、public/logo192.png、public/logo512.pngを追加。
 1. Vite PWAを実装するため、vite.config.tsを下記に変更。
-    ```ts: vite.config.ts
+    ```ts
     import { defineConfig } from "vite"
     import react from "@vitejs/plugin-react-swc"
     import { VitePWA } from "vite-plugin-pwa"
@@ -137,17 +137,17 @@
     })
     ```
 1. package.jsonの"scripts"に以下を追記。
-    ```json: package.json
+    ```json
     "git": "git add . && git commit && git push"
     ```
 1. コミットしてプッシュ。
-    ```sh: ターミナル
+    ```sh
     npm run git
     ```
 
 ## Github ActionsでGitHub Pagesにデプロイ
 1. ライブラリをインストール。
-    ```bash
+    ```sh
     npm i --save-dev @types/node
     ```
 1. vite.config.jsのdefineConfig内を変更。
