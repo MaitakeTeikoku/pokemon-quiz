@@ -1,4 +1,4 @@
-## React(Vite)、Cloudflare Pagesプロジェクト構築
+## React(Vite)プロジェクト構築
 1. GitHubからクローン。
     ```sh: ターミナル
     git clone https://github.com/kinakokyoryu/pokemon-quiz.git
@@ -144,4 +144,72 @@
 1. コミットしてプッシュ。
     ```sh: ターミナル
     npm run git
+    ```
+
+## Github ActionsでGitHub Pagesにデプロイ
+1. ライブラリをインストール。
+    ```bash
+    npm i --save-dev @types/node
+    ```
+1. vite.config.jsのdefineConfig内を変更。
+    ```ts
+    export default defineConfig({
+      base: process.env.GITHUB_PAGES ? 'REPOSITORY_NAME' : './',
+      plugins: [react()],
+    })
+    ```
+1. ブラウザで、Github ActionsでGithub Pagesにデプロイするように設定。
+1. .github/workflows/main.ymlを作成し、以下を記述。
+    ```yml
+    # 静的コンテンツを GitHub Pages にデプロイするためのシンプルなワークフロー
+    name: Deploy static content to Pages
+
+    on:
+      # デフォルトブランチを対象としたプッシュ時にで実行されます
+      push:
+        branches: ['main']
+
+      # Actions タブから手動でワークフローを実行できるようにします
+      workflow_dispatch:
+
+    # GITHUB_TOKEN のパーミッションを設定し、GitHub Pages へのデプロイを許可します
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    # 1 つの同時デプロイメントを可能にする
+    concurrency:
+      group: 'pages'
+      cancel-in-progress: true
+
+    jobs:
+      # デプロイするだけなので、単一のデプロイジョブ
+      deploy:
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.outputs.page_url }}
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v4
+          - name: Set up Node
+            uses: actions/setup-node@v4
+            with:
+              node-version: 20
+              cache: 'npm'
+          - name: Install dependencies
+            run: npm ci
+          - name: Build
+            run: npm run build
+          - name: Setup Pages
+            uses: actions/configure-pages@v4
+          - name: Upload artifact
+            uses: actions/upload-pages-artifact@v3
+            with:
+              # dist フォルダーのアップロード
+              path: './dist'
+          - name: Deploy to GitHub Pages
+            id: deployment
+            uses: actions/deploy-pages@v4
     ```
