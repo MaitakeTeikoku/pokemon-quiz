@@ -22,7 +22,6 @@
     ```sh: ターミナル
     npm install vite-plugin-pwa
     npm install @yamada-ui/react @yamada-ui/lucide
-    npm i --save-dev @types/node
     ```
 1. ローカルで起動。
     ```sh: ターミナル
